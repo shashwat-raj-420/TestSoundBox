@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TestSoundBox3</string>
+    <string name="bankNameHint">refer to previously received message from the bank to get the bank name and type it as it is.</string>
 </resources>

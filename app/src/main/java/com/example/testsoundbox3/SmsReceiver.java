@@ -34,6 +34,8 @@ public class SmsReceiver extends BroadcastReceiver {
                     received_money(messageBody,sender,0);
                 }else if (rupees_in_word(messageBody)==1) {
                     received_money(messageBody, sender, 1);
+                }else if (rupees_in_word(messageBody)==2) {
+                    received_money(messageBody, sender, 2);
                 }else {
                     received_money(messageBody,sender,-1);
                 }
@@ -47,6 +49,8 @@ public class SmsReceiver extends BroadcastReceiver {
             return 0;
         } else if (message.contains("rs.")){
             return 1;
+        } else if (message.contains("INR")){
+            return 2;
         } else {
             return -1;
         }
@@ -65,6 +69,15 @@ public class SmsReceiver extends BroadcastReceiver {
         }
         else if (rupee_sign == 1) {
             Pattern pattern = Pattern.compile("rs.(\\d+(\\.\\d+)?)");
+            Matcher matcher = pattern.matcher(message);
+            if (matcher.find()) {
+                String match = matcher.group(1); // Extract the matched group
+                double moneyInRupees = Double.parseDouble(match);
+                mListener.messageReceived("received ₹" + Double.toString(moneyInRupees), sender);
+            }
+        }
+        else if (rupee_sign == 2) {
+            Pattern pattern = Pattern.compile("INR(\\d+(\\.\\d+)?)");
             Matcher matcher = pattern.matcher(message);
             if (matcher.find()) {
                 String match = matcher.group(1); // Extract the matched group

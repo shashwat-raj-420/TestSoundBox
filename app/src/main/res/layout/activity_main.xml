@@ -31,6 +31,7 @@
                 android:layout_margin="40dp"
                 android:hint="name of your bank" />
 
+
             <EditText
                 android:id="@+id/edtAmount"
                 android:layout_width="wrap_content"
