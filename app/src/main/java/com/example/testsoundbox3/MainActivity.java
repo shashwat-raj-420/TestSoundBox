@@ -1,6 +1,10 @@
 package com.example.testsoundbox3;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import android.content.pm.PackageManager;
 import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,13 +23,20 @@ public class MainActivity extends AppCompatActivity {
     Button resetButton;
 
     String sender_name,if_credited;
+    final int REQUEST_CODE_ASK_PERMISSIONS = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        resetButton = findViewById(R.id.btnReset);
+//        if(ContextCompat.checkSelfPermission(getBaseContext(),"Manifest.permission.READ_SMS")
+//                == PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(MainActivity.this,
+//                    new String[]{"android.permission.READ_SMS"},REQUEST_CODE_ASK_PERMISSIONS);
+//        }
+
+        resetButton = (Button) findViewById(R.id.btnReset);
         editAmount = (EditText) findViewById(R.id.edtAmount);
         bankName = (EditText) findViewById(R.id.bankName);
 
