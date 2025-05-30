@@ -1,10 +1,6 @@
 package com.example.testsoundbox3;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.content.pm.PackageManager;
 import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     String sender_name,if_credited;
     final int REQUEST_CODE_ASK_PERMISSIONS = 1001;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
