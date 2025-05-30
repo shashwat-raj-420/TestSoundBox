@@ -15,8 +15,10 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
 
     private TextToSpeech textToSpeech;
-    private EditText editAmount,bankName;
-    Button resetButton;
+    private EditText bankName;
+    String bankNameString;
+    Button resetButton,startButton;
+    Boolean initialized=false;
 
     String sender_name,if_credited;
     final int REQUEST_CODE_ASK_PERMISSIONS = 1001;
@@ -32,50 +34,48 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         resetButton = (Button) findViewById(R.id.btnReset);
-        editAmount = (EditText) findViewById(R.id.edtAmount);
         bankName = (EditText) findViewById(R.id.bankName);
+        startButton = (Button) findViewById(R.id.buttonSubmit);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bankNameString = bankName.getText().toString();
+                initSpeakOut();
+            }
+        });
 
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bankName.setText("");
-                editAmount.setText("");
+                bankNameString = bankName.getText().toString();
             }
         });
 
+
+
+        bind_L();
+    }
+
+    private void initSpeakOut(){
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     textToSpeech.setLanguage(Locale.US);
+                    initialized = true;
                 } else {
                     Toast.makeText(MainActivity.this, "Error initializing TextToSpeech.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-        editAmount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                speakOut(editAmount.getText().toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        bind_L();
     }
 
     private void speakOut(String text) {
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        if (initialized) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        }
     }
 
     @Override
@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void setAmount(){
         Log.d("d1","setAmount");
-        if (sender_name.endsWith(bankName.getText().toString())){
+        if (sender_name.endsWith(bankNameString) && !bankNameString.isEmpty()){
             Log.d("d2", "bank name true");
-            editAmount.setText(if_credited);
+            speakOut(if_credited);
         }
     }
 }

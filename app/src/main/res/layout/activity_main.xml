@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@drawable/gradient_background"
         android:padding="0dp">
 
         <!-- Top Section with Gradient Background -->
@@ -19,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/gradient_background"
             android:paddingHorizontal="24dp"
             android:paddingTop="48dp"
             android:paddingBottom="32dp">
@@ -84,30 +84,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
-                        android:maxLines="1"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="16sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Email Field with Enhanced Styling -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:startIconTint="?attr/colorPrimary"
-                    app:helperTextTextColor="?attr/colorOnSurfaceVariant"
-                    app:endIconMode="clear_text"
-                    app:endIconTint="?attr/colorOnSurfaceVariant"
-                    app:boxStrokeColor="?attr/colorPrimary"
-                    app:hintTextColor="?attr/colorPrimary">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtAmount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp" />
