@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText,String nameText) {
-                Log.d("d3", "messageReceived: d3");
+                Log.d("data3", "messageReceived: d3");
                 sender_name=nameText;
                 if_credited=messageText;
 
@@ -102,9 +102,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setAmount(){
-        Log.d("d1","setAmount");
-        if (sender_name.endsWith(bankNameString) && !bankNameString.isEmpty()){
-            Log.d("d2", "bank name true");
+        if (sender_name.contains(bankNameString) && !bankNameString.isEmpty()){
+            Log.d("data12", "messageReceived: 12");
             speakOut(if_credited);
         }
     }

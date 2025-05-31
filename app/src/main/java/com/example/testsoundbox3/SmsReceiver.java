@@ -7,6 +7,7 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,16 +29,19 @@ public class SmsReceiver extends BroadcastReceiver {
             String sender = smsMessage.getDisplayOriginatingAddress();
 
             String messageBody = smsMessage.getDisplayMessageBody();
+            messageBody = messageBody.toLowerCase(Locale.ROOT);
 
-            if (messageBody.contains("credited")||messageBody.contains("Credited")){
-                if (rupees_in_word(messageBody)==0){
-                    received_money(messageBody,sender,0);
-                }else if (rupees_in_word(messageBody)==1) {
+            Log.d("data4", "data 4");
+
+            if (messageBody.contains("credited")){
+                int rupeesInWord = rupees_in_word(messageBody);
+                if (rupeesInWord==1) {
                     received_money(messageBody, sender, 1);
-                }else if (rupees_in_word(messageBody)==2) {
+                }else if (rupeesInWord==2) {
+                    Log.d("data6", "data 6");
                     received_money(messageBody, sender, 2);
                 }else {
-                    received_money(messageBody,sender,-1);
+                    received_money(messageBody,sender,0);
                 }
 
             }
@@ -45,41 +49,36 @@ public class SmsReceiver extends BroadcastReceiver {
         }
     }
     public int rupees_in_word(String message){
-        if (message.contains("Rs.")) {
-            return 0;
-        } else if (message.contains("rs.")){
-            return 1;
-        } else if (message.contains("INR")){
+        if (message.contains("credited") && message.contains("inr")){
             return 2;
+        } else if (message.contains("credited") && message.contains("rs.")){
+            Log.d("data9", "data 9");
+            return 1;
         } else {
-            return -1;
+            return 0;
         }
     }
 
     public void received_money(String messageBody , String sender , int rupee_sign){
-        String message = messageBody.replaceAll(" ","");
-        if (rupee_sign == 0) {
-            Pattern pattern = Pattern.compile("Rs.(\\d+(\\.\\d+)?)");
-            Matcher matcher = pattern.matcher(message);
-            if (matcher.find()) {
-                String match = matcher.group(1); // Extract the matched group
-                double moneyInRupees = Double.parseDouble(match);
-                mListener.messageReceived("received ₹" + Double.toString(moneyInRupees), sender);
-            }
-        }
-        else if (rupee_sign == 1) {
+        String tempMessage = messageBody.replaceAll(" ","");
+        String message = tempMessage.replaceAll(",","");
+        if (rupee_sign == 1) {
             Pattern pattern = Pattern.compile("rs.(\\d+(\\.\\d+)?)");
             Matcher matcher = pattern.matcher(message);
             if (matcher.find()) {
+                Log.d("data10", "data 10");
                 String match = matcher.group(1); // Extract the matched group
                 double moneyInRupees = Double.parseDouble(match);
+                Log.d("data11", "received ₹" + Double.toString(moneyInRupees) + " from " +sender);
                 mListener.messageReceived("received ₹" + Double.toString(moneyInRupees), sender);
             }
         }
         else if (rupee_sign == 2) {
-            Pattern pattern = Pattern.compile("INR(\\d+(\\.\\d+)?)");
+            Log.d("data7", "data 7");
+            Pattern pattern = Pattern.compile("inr(\\d+(\\.\\d+)?)");
             Matcher matcher = pattern.matcher(message);
             if (matcher.find()) {
+                Log.d("data8", "data 8");
                 String match = matcher.group(1); // Extract the matched group
                 double moneyInRupees = Double.parseDouble(match);
                 mListener.messageReceived("received ₹" + Double.toString(moneyInRupees), sender);
